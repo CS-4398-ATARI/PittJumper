@@ -8,6 +8,7 @@ from settings import *
 from sprites import *
 from os import path
 
+
 class Game:
     def __init__(self):
         # initialize game window, etc
@@ -39,6 +40,8 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
+
+
         for plat in PLATFORM_LIST:
             p = Platform(self, *plat)
             self.all_sprites.add(p)
@@ -89,11 +92,11 @@ class Game:
             self.playing = False
 
         # spawn new platforms to keep same average number
-        while len(self.platforms) < 6:
-            width = random.randrange(50, 100)
-            p = Platform(self, random.randrange(0, WIDTH - width),
-                         random.randrange(-75, -30))
-            self.platforms.add(p)
+#        while len(self.platforms) < 6:
+#            width = random.randrange(50, 100)
+#            p = Platform(self, random.randrange(0, WIDTH - width),
+#                         random.randrange(-75, -30))
+#            self.platforms.add(p)
             self.all_sprites.add(p)
 
     def events(self):
@@ -113,7 +116,13 @@ class Game:
 
     def draw(self):
         # Game Loop - draw
-        self.screen.fill(BGCOLOR)
+        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-bg.png", [0, 0])
+#        self.screen.fill([255, 255, 255])
+        self.screen.blit(BackGround.image, BackGround.rect)
+        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-montain-far.png", [0, 0])
+        self.screen.blit(BackGround.image, BackGround.rect)
+        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-mountains.png", [0, 0])
+        self.screen.blit(BackGround.image, BackGround.rect)
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
         self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
@@ -122,11 +131,14 @@ class Game:
 
     def show_start_screen(self):
         # game splash/start screen
-        self.screen.fill(BGCOLOR)
-        self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text("Press a key to play", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
-        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, 15)
+        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\pitjumpertitle.png", [0, 0])
+        self.screen.fill([255, 255, 255])
+        self.screen.blit(BackGround.image, BackGround.rect)
+        #self.screen.fill(BGCOLOR)
+#        self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
+#        self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH / 2, HEIGHT / 2)
+#        self.draw_text("Press a key to play", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+#        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, 15)
         pg.display.flip()
         self.wait_for_key()
 

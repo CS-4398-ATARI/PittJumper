@@ -115,6 +115,7 @@ class Player(pg.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.bottom = bottom
 
+
 class Platform(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         pg.sprite.Sprite.__init__(self)
@@ -123,9 +124,21 @@ class Platform(pg.sprite.Sprite):
                   self.game.spritesheet.get_image(213, 1662, 201, 100)]
         self.image = choice(images)
         self.image.set_colorkey(BLACK)
+        self.image = pg.transform.scale(self.image, (5000, 200))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
+class Background(pg.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pg.sprite.Sprite.__init__(self)  #call Sprite initializer
+        #self.image = pg.image.load(image_file)
+        self.image = pg.image.load(image_file).convert_alpha()
+        if image_file != r"C:\Users\Lumir\PycharmProjects\testgame\img\pitjumpertitle.png":
+            self.image = pg.transform.scale(self.image, (1280, 720))
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
 
 
 class Enemy(ABC):
