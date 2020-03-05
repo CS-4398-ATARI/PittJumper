@@ -6,6 +6,7 @@ FPS = 60
 FONT_NAME = 'arial'
 HS_FILE = "highscore.txt"
 SPRITESHEET = "spritesheet_jumper.png"
+BACKGROUNDTITLE = "pitjumpertitle.png"
 
 # Player properties
 PLAYER_ACC = 0.5

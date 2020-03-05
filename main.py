@@ -7,6 +7,7 @@ import random
 from settings import *
 from sprites import *
 from os import path
+from settings import *
 
 
 class Game:
@@ -116,13 +117,10 @@ class Game:
 
     def draw(self):
         # Game Loop - draw
-        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-bg.png", [0, 0])
-#        self.screen.fill([255, 255, 255])
-        self.screen.blit(BackGround.image, BackGround.rect)
-        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-montain-far.png", [0, 0])
-        self.screen.blit(BackGround.image, BackGround.rect)
-        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\parallax-mountain-mountains.png", [0, 0])
-        self.screen.blit(BackGround.image, BackGround.rect)
+#        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\Background\bg_layer1.png", [0, 0])
+        self.screen.fill([137, 207, 240])
+#        self.screen.blit(BackGround.image, BackGround.rect)
+        #        self.screen.blit(BackGround.image, BackGround.rect)
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
         self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
@@ -131,9 +129,10 @@ class Game:
 
     def show_start_screen(self):
         # game splash/start screen
-        BackGround = Background(r"C:\Users\Lumir\PycharmProjects\testgame\img\pitjumpertitle.png", [0, 0])
+        img_dir = path.join(self.dir, 'img')
+        self.background = Background(path.join(img_dir, BACKGROUNDTITLE), [0, 0])
         self.screen.fill([255, 255, 255])
-        self.screen.blit(BackGround.image, BackGround.rect)
+        self.screen.blit(self.background.image, self.background.rect)
         #self.screen.fill(BGCOLOR)
 #        self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
 #        self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH / 2, HEIGHT / 2)

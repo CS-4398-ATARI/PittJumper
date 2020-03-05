@@ -135,7 +135,7 @@ class Background(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)  #call Sprite initializer
         #self.image = pg.image.load(image_file)
         self.image = pg.image.load(image_file).convert_alpha()
-        if image_file != r"C:\Users\Lumir\PycharmProjects\testgame\img\pitjumpertitle.png":
+        if image_file != "pitjumpertitle.png":
             self.image = pg.transform.scale(self.image, (1280, 720))
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
