@@ -10,6 +10,7 @@ from os import path
 from settings import *
 
 
+
 class Game:
     def __init__(self):
         # initialize game window, etc
@@ -21,6 +22,12 @@ class Game:
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
+
+        # Loading the sound directory and all music will go under here? Probably will have to reference
+        # the music somewhere in the game loop if we want to switch,
+        sound_dir = path.join(self.dir, 'sound')
+        pg.mixer.music.load(path.join(sound_dir, 'Venus.wav'))
+        pg.mixer.music.play(-1)
 
     def load_data(self):
         # load high score
@@ -36,12 +43,12 @@ class Game:
 
     def new(self):
         # start a new game
-        self.score = 0
+        self.score = pg.time.get_ticks()
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
-
+        self.score = (pg.time.get_ticks() - self.score) / 1000
 
         for plat in PLATFORM_LIST:
             p = Platform(self, *plat)
@@ -75,13 +82,15 @@ class Game:
                     self.player.jumping = False
 
         # if player reaches top 1/4 of screen
-        if self.player.rect.top <= HEIGHT / 4:
-            self.player.pos.y += max(abs(self.player.vel.y), 2)
-            for plat in self.platforms:
-                plat.rect.y += max(abs(self.player.vel.y), 2)
-                if plat.rect.top >= HEIGHT:
-                    plat.kill()
-                    self.score += 10
+        #if self.player.rect.top <= HEIGHT / 4:
+            #self.player.pos.y += max(abs(self.player.vel.y), 2)
+            #for plat in self.platforms:
+                #plat.rect.y += max(abs(self.player.vel.y), 2)
+                #if plat.rect.top >= HEIGHT:
+                    #plat.kill()
+
+        # Timer
+        self.score = pg.time.get_ticks()
 
         # Die!
         if self.player.rect.bottom > HEIGHT:
@@ -101,6 +110,11 @@ class Game:
             self.all_sprites.add(p)
 
     def events(self):
+
+        # Going to throw all sounds above here. There's probably a better place to put them.
+        sound_dir = path.join(self.dir, 'sound')
+        jumpsound = path.join(sound_dir, "jump_01.wav")
+
         # Game Loop - events
         for event in pg.event.get():
             # check for closing window
@@ -111,6 +125,7 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+                    pg.mixer.Sound.play(pg.mixer.Sound(jumpsound))
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     self.player.jump_cut()
@@ -123,7 +138,7 @@ class Game:
         #        self.screen.blit(BackGround.image, BackGround.rect)
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
-        self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
+        self.draw_text(str(round(self.score/10000, 2)), 22, WHITE, WIDTH / 2, 15)
         # *after* drawing everything, flip the display
         pg.display.flip()
 
