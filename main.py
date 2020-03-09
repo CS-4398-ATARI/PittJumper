@@ -10,7 +10,6 @@ from os import path
 from settings import *
 
 
-
 class Game:
     def __init__(self):
         # initialize game window, etc
@@ -46,10 +45,18 @@ class Game:
         self.score = pg.time.get_ticks()
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
+        self.enemies = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
         self.score = (pg.time.get_ticks() - self.score) / 1000
 
+        # Enemies
+        for i in range(8):
+            m = Enemy()
+            self.all_sprites.add(m)
+            self.enemies.add(m)
+
+        # Platforms
         for plat in PLATFORM_LIST:
             p = Platform(self, *plat)
             self.all_sprites.add(p)
@@ -81,6 +88,12 @@ class Game:
                     self.player.vel.y = 0
                     self.player.jumping = False
 
+        # Tracking player collision with enemy sprites.
+        if pg.sprite.spritecollide(self.player, self.enemies, True):
+            self.player.isdead = True
+            #pg.time.delay(10000)
+            self.playing = False
+
         # if player reaches top 1/4 of screen
         #if self.player.rect.top <= HEIGHT / 4:
             #self.player.pos.y += max(abs(self.player.vel.y), 2)
@@ -107,7 +120,7 @@ class Game:
 #            p = Platform(self, random.randrange(0, WIDTH - width),
 #                         random.randrange(-75, -30))
 #            self.platforms.add(p)
-            self.all_sprites.add(p)
+            #self.all_sprites.add(p)
 
     def events(self):
 
@@ -162,7 +175,7 @@ class Game:
             return
         self.screen.fill(BGCOLOR)
         self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Score: " + str(self.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
+        self.draw_text("Score: " + str(round(self.score/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2)
         self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         if self.score > self.highscore:
             self.highscore = self.score
@@ -170,7 +183,7 @@ class Game:
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+            self.draw_text("High Score: " + str(round(self.highscore/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
         pg.display.flip()
         self.wait_for_key()
 
