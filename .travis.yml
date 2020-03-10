@@ -5,5 +5,8 @@ python:
 before_script:
     - pip install -r "requirements.txt"
 
+virtualenv:
+  system_site_packages: true
+
 script:
     - python3 main.py
