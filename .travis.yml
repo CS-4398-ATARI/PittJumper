@@ -1,2 +1,13 @@
+language: python
+python:
+    -"3.6"
+
+services:
+    -pygame
+
+before_script:
+    - pip install -r requirements.txt
+    - pip install .
+
 script:
   - pytest
