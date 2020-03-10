@@ -18,6 +18,9 @@ PLAYER_JUMP = 20
 # Starting platforms
 PLATFORM_LIST = [(0, HEIGHT - 60)]
 
+# Starting Enemies
+ENEMY_LIST = [(0, HEIGHT - 60, 5)]
+
 # define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)

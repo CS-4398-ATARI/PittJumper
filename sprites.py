@@ -1,7 +1,7 @@
 # Sprite classes for platform game
 import pygame as pg
 from settings import *
-from random import choice
+from random import *
 from abc import ABC, abstractmethod
 vec = pg.math.Vector2
 
@@ -34,6 +34,7 @@ class Player(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.hp = 5
         self.attackPower = 6
+        self.isdead = False
 
     def load_images(self):
         self.standing_frames = [self.game.spritesheet.get_image(614, 1063, 120, 191),
@@ -48,6 +49,9 @@ class Player(pg.sprite.Sprite):
             self.walk_frames_l.append(pg.transform.flip(frame, True, False))
         self.jump_frame = self.game.spritesheet.get_image(382, 763, 150, 181)
         self.jump_frame.set_colorkey(BLACK)
+        self.dead_frame = self.game.spritesheet.get_image(382, 946, 150, 174)
+        self.dead_frame.set_colorkey(BLACK)
+
 
     def jump_cut(self):
         if self.jumping:
@@ -114,8 +118,13 @@ class Player(pg.sprite.Sprite):
                 self.image = self.standing_frames[self.current_frame]
                 self.rect = self.image.get_rect()
                 self.rect.bottom = bottom
-
-
+        if self.isdead != False:
+            self.last_update = now
+            self.current_frame = self.dead_frame
+            bottom = self.rect.bottom
+            self.image = self.dead_frame
+            self.rect = self.image.get_rect()
+            self.rect.bottom = bottom
 class Platform(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         pg.sprite.Sprite.__init__(self)
@@ -141,18 +150,21 @@ class Background(pg.sprite.Sprite):
         self.rect.left, self.rect.top = location
 
 
-class Enemy(ABC):
+class Enemy(pg.sprite.Sprite):
     def __init__(self):
-        self.strength = 4
-        self.powerUp = 6
-        self.hp = 5
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.Surface((30, 40))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x = randrange(WIDTH - self.rect.width)
+        self.rect.y = randrange(-100, -40)
+        self.speedy = randrange(1, 8)
+        self.speedx = randrange(-3, 3)
 
-
-class Minion(Enemy):
-    def __init__(self):
-        self.healthDrop = 5
-
-
-class Boss(Enemy):
-    def __init__(self):
-        self.lootDrop = 5
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        if self.rect.top > HEIGHT + 10 or self.rect.right > WIDTH + 20:
+            self.rect.x = randrange(WIDTH - self.rect.width)
+            self.rect.y = randrange(-100, -40)
+            self.speedy = randrange(1, 8)\
