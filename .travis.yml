@@ -6,7 +6,7 @@ install:
     - pip freeze > requirements.txt
     - pip install -r requirements.txt
 script:
-    -python main.py
+    -python3 main.py
 
 
 # language: python
