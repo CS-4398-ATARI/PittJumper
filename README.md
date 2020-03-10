@@ -1,2 +1,3 @@
 # SeniorProject
 Chad: testing 1 2 3...
+Test for class.
