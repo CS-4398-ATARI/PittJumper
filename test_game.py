@@ -1,13 +1,22 @@
 import unittest
-import unittest.mock
-import main
-import sprites
+from sprites import Spritesheet
+import pygame
+from unittest.mock import Mock
 
-class TestCases(unittest.TestCase):
+
+class TestGame(unittest.TestCase):
+    #Testing the sprite class.
+    def test_get_image(self):
+        g = Mock()
+        Spritesheet = g.pygame.image.load("spritesheet_jumper.png").convert()
+        image = g.Spritesheet.get_image(614,1063,120,191)
+        image2 = g.Spritesheet.get_image(614, 1063, 120, 191)
+        self.assertEqual(image, image2)
 
     #Test 1a and 1b: Validate user moves left and right as expected.
 
-    #Test 2: Confirm that avitar jumps when initiated.
+
+    #Test 2: Confirm that avatar jumps when initiated.
 
     #Test 3: Confirm that HP modifies when attacked.
 
