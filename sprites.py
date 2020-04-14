@@ -125,6 +125,8 @@ class Player(pg.sprite.Sprite):
             self.image = self.dead_frame
             self.rect = self.image.get_rect()
             self.rect.bottom = bottom
+
+
 class Platform(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         pg.sprite.Sprite.__init__(self)
@@ -151,20 +153,55 @@ class Background(pg.sprite.Sprite):
 
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((30, 40))
-        self.image.fill(RED)
+        self.image = self.game.spritesheet.get_image(566, 510, 122, 139)
+        self.image.set_colorkey(BLACK)
+        #self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.rect.x = randrange(WIDTH - self.rect.width)
         self.rect.y = randrange(-100, -40)
         self.speedy = randrange(1, 8)
         self.speedx = randrange(-3, 3)
+        self.wait = 0
+        self.walking = False
+        self.jumping = False
+        self.current_frame = 0
+        self.last_update = 0
+        self.load_images()
+        #self.image = self.standing_frames[0]
+        #self.pos = vec(40, HEIGHT - 100)
+        #self.vel = vec(0, 0)
+        #self.acc = vec(0, 0)
+        self.hp = 5
+        self.attackPower = 6
+        self.isdead = False
 
     def update(self):
+        self.animate()
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         if self.rect.top > HEIGHT + 10 or self.rect.right > WIDTH + 20:
             self.rect.x = randrange(WIDTH - self.rect.width)
             self.rect.y = randrange(-100, -40)
-            self.speedy = randrange(1, 8)\
+            self.speedy = randrange(1, 8)
+
+    def load_images(self):
+        self.standing_frames = [self.game.spritesheet.get_image(566, 510, 122, 139),
+                                self.game.spritesheet.get_image(692,1667, 120,132)]
+        for frame in self.standing_frames:
+            frame.set_colorkey(BLACK)
+
+
+    def animate(self):
+        now = pg.time.get_ticks()
+        # show idle animation
+        if now - self.last_update > 250:
+            self.last_update = now
+            self.current_frame = (self.current_frame + 1) % len(self.standing_frames)
+            bottom = self.rect.bottom
+            self.image = self.standing_frames[self.current_frame]
+
+
+

@@ -1,5 +1,4 @@
 # Using KidsCanCode - Game Development with Pygame video series as a framework
-# Improved Jumping
 # Art from Kenney.nl
 
 import pygame as pg
@@ -49,10 +48,11 @@ class Game:
         self.player = Player(self)
         self.all_sprites.add(self.player)
         self.score = (pg.time.get_ticks() - self.score) / 1000
+        self.last_update = 0
 
         # Enemies
-        for i in range(8):
-            m = Enemy()
+        for i in range(0):
+            m = Enemy(self)
             self.all_sprites.add(m)
             self.enemies.add(m)
 
@@ -93,6 +93,14 @@ class Game:
             self.player.isdead = True
             #pg.time.delay(10000)
             self.playing = False
+
+        now = pg.time.get_ticks()
+        if now - self.last_update > 1000:
+            self.last_update = now
+            m = Enemy(self)
+            self.all_sprites.add(m)
+            self.enemies.add(m)
+
 
         # if player reaches top 1/4 of screen
         #if self.player.rect.top <= HEIGHT / 4:
