@@ -10,7 +10,7 @@ class Game:
     def __init__(self):
         # initialize game window, etc
         pg.init()
-        pg.mixer.init()
+        pg.mixer.init()         # sound
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
@@ -68,6 +68,29 @@ class Game:
             self.events()
             self.update()
             self.draw()
+
+    def pause(self):
+        paused = True
+
+        while paused:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_c:
+                        paused = False
+                    elif event.key == pg.K_q:
+                        pg.quit()
+                        quit()
+            # gameDisplay.fill(white)
+            self.screen.fill(BGCOLOR)
+            self.draw_text("Paused", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+            self.draw_text("Press c to continue, q to quit", 22, WHITE, WIDTH / 2, HEIGHT / 2)
+
+            pg.display.update()
+            self.clock.tick(5)
+        self.update()
 
     def update(self):
         # Game Loop - Update
@@ -144,6 +167,9 @@ class Game:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
                     pg.mixer.Sound.play(pg.mixer.Sound(jumpsound))
+                elif event.key == pg.K_p:
+                    self.pause()
+
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     self.player.jump_cut()
