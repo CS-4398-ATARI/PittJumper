@@ -1,7 +1,7 @@
 from game_class import *
 
 def main():
-    
+
     g = Game()
     g.show_start_screen()
 
