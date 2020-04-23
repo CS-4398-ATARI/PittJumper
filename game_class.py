@@ -73,17 +73,20 @@ class Game:
         paused = True
 
         while paused:
+
             for event in pg.event.get():
+
                 if event.type == pg.QUIT:
                     pg.quit()
                     quit()
+
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_c:
                         paused = False
                     elif event.key == pg.K_q:
                         pg.quit()
                         quit()
-            # gameDisplay.fill(white)
+
             self.screen.fill(BGCOLOR)
             self.draw_text("Paused", 48, WHITE, WIDTH / 2, HEIGHT / 4)
             self.draw_text("Press c to continue, q to quit", 22, WHITE, WIDTH / 2, HEIGHT / 2)
@@ -207,7 +210,7 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
         self.draw_text("Score: " + str(round(self.score/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+        self.draw_text("Press c to play again, q to quit", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         if self.score > self.highscore:
             self.highscore = self.score
             self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
@@ -216,7 +219,23 @@ class Game:
         else:
             self.draw_text("High Score: " + str(round(self.highscore/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
         pg.display.flip()
-        self.wait_for_key()
+        # self.wait_for_key()
+        
+        waiting = True
+        while waiting:
+            for event in pg.event.get():
+
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    quit()
+
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_c:
+                        waiting = False
+                    elif event.key == pg.K_q:
+                        pg.quit()
+                        quit()
+
 
     def wait_for_key(self):
         waiting = True
@@ -228,6 +247,27 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYUP:
                     waiting = False
+
+        # POSSIBLE LOOP CONSTRUCT TO BE USED WITH TIMER ISSUE RESOLUTION BUILT IN
+        # if game_over:             # game_over is a bool arg to decide if score is reset
+        #     self.score = 0
+
+        
+        # waiting = True
+        # while waiting:
+        #     for event in pg.event.get():
+
+        #         if event.type == pg.QUIT:
+        #             pg.quit()
+        #             quit()
+
+        #         if event.type == pg.KEYDOWN:
+        #             if event.key == pg.K_c:
+        #                 waiting = False
+        #             elif event.key == pg.K_q:
+        #                 pg.quit()
+        #                 quit()
+                
 
     def draw_text(self, text, size, color, x, y):
         font = pg.font.Font(self.font_name, size)
