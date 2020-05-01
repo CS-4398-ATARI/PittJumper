@@ -1,3 +1,5 @@
+from os import path
+
 # game options/settings
 TITLE = "Pit Jumper"
 WIDTH = 1200
@@ -8,6 +10,12 @@ HS_FILE = "highscore.txt"
 SPRITESHEET = "spritesheet_jumper.png"
 BACKGROUNDTITLE = "pitjumpertitle.png"
 
+# Sound properties
+SOUND = path.join('./sound')
+GAME_TRACK = 'Venus.wav'
+PAUSE_TRACK = 'Mars.wav'
+GAME_OVER = 'Win Jingle.wav'
+LOOP = -1
 
 # Player properties
 PLAYER_ACC = 0.5
