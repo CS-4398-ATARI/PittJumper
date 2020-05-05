@@ -135,11 +135,9 @@ class Platform(pg.sprite.Sprite):
                   self.game.spritesheet.get_image(213, 1662, 201, 100)]
         self.image = choice(images)
         self.image.set_colorkey(BLACK)
-        self.image = pg.transform.scale(self.image, (5000, 200))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
 
 class Background(pg.sprite.Sprite):
     def __init__(self, image_file, location):

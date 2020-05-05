@@ -24,7 +24,20 @@ PLAYER_GRAV = 0.8
 PLAYER_JUMP = 20
 
 # Starting platforms
-PLATFORM_LIST = [(0, HEIGHT - 60)]
+PLATFORM_LIST = [(0, HEIGHT - 60),
+                 (WIDTH / 2 - 50, HEIGHT * 3 / 4 - 50),
+                 (125, HEIGHT - 350),
+                 (350, 200),
+                 (400, 300),
+                 (500, 40),
+                 (900, 600),
+                 (500, 100),
+                 (800, 100),
+                 (600, 40),
+                 (450, 600),
+                 (150, HEIGHT-60),
+                 (800, HEIGHT - 60),
+                 ]
 
 # Starting Enemies
 ENEMY_LIST = [(0, HEIGHT - 60, 5)]
