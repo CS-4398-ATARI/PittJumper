@@ -3,6 +3,8 @@ import random
 from settings import *
 from sprites import *
 from os import path
+from stopwatch import Stopwatch
+
 
 class Game:
     def __init__(self):
@@ -18,17 +20,17 @@ class Game:
 
     def new(self):
         # start a new game
-        self.score = pg.time.get_ticks()
+        self.timer = Stopwatch()
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
-        self.score = (pg.time.get_ticks() - self.score) / 10
         self.last_update = 0
         pg.mixer.music.load(path.join(SOUND, GAME_TRACK))
         pg.mixer.music.play(LOOP)
         pg.mixer.music.set_volume(0.6)
+        self.pausedtime = 0
 
         # Enemies
         for i in range(0):
@@ -41,6 +43,10 @@ class Game:
             p = Platform(self, *plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
+
+        # Other platforms
+
+
 
         self.run()
 
@@ -55,6 +61,7 @@ class Game:
 
     def pause(self):
         paused = True
+        tempTime = Stopwatch()
         
         # Fade out game music, start pause soundtrack
         pg.mixer.music.fadeout(750)
@@ -69,13 +76,14 @@ class Game:
 
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_c:
+                        self.pausedtime += tempTime.get_seconds()
                         paused = False
                     elif event.key == pg.K_q:
                         pg.quit()
                         quit()
 
-            self.screen.fill(BGCOLOR)
-            self.draw_text("Paused", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+            self.screen.fill(BLACK)
+            self.draw_text("Paused", 48, RED, WIDTH / 2, HEIGHT / 4)
             self.draw_text("Press c to continue, q to quit", 22, WHITE, WIDTH / 2, HEIGHT / 2)
 
             pg.display.update()
@@ -90,7 +98,7 @@ class Game:
     def show_start_screen(self):
         # game splash/start screen
         img_dir = path.join(self.dir, 'img')
-        self.background = Background(path.join(img_dir, BACKGROUNDTITLE), [0, 0])
+        self.background = Background(path.join(img_dir, BACKGROUNDTITLE), [-50, 0])
         self.screen.fill([255, 255, 255])
         self.screen.blit(self.background.image, self.background.rect)
 
@@ -104,15 +112,15 @@ class Game:
         
         pg.mixer.music.load(path.join(SOUND, GAME_OVER))
         pg.mixer.music.play()
-        self.screen.fill(BGCOLOR)
-        self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Score: " + str(round(self.score/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2)
+        self.screen.fill([0, 0, 0])
+        self.draw_text("GAME OVER", 48, RED, WIDTH / 2, HEIGHT / 4)
+        self.draw_text("Score: " + str(round((self.timer.get_seconds() - self.pausedtime), 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2)
         self.draw_text("Press c to play again, q to quit", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
-        if self.score > self.highscore:
-            self.highscore = self.score
-            self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+        if self.timer.get_seconds() - self.pausedtime > self.highscore:
+            self.highscore = self.timer.get_seconds() - self.pausedtime()
+            self.draw_text("NEW HIGH SCORE!", 22, RED, WIDTH / 2, HEIGHT / 2 + 40)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
-                f.write(str(self.score))
+                f.write(str(self.timer.get_seconds() - self.pausedtime))
         else:
             self.draw_text("High Score: " + str(round(self.highscore/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
         pg.display.flip()
@@ -185,9 +193,6 @@ class Game:
             self.all_sprites.add(m)
             self.enemies.add(m)
 
-        # Timer
-        self.score = pg.time.get_ticks()
-
         # Die!
         if self.player.rect.bottom > HEIGHT:
             for sprite in self.all_sprites:
@@ -202,7 +207,7 @@ class Game:
         self.screen.fill([137, 207, 240])
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
-        self.draw_text(str(round(self.score/10000, 2)), 22, WHITE, WIDTH / 2, 15)
+        self.draw_text(str(round(self.timer.get_seconds() - self.pausedtime, 2)), 22, WHITE, WIDTH / 2, 15)
         # *after* drawing everything, flip the display
         pg.display.flip()
 
@@ -237,4 +242,3 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYUP:
                     waiting = False
-    

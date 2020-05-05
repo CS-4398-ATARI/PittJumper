@@ -1,0 +1,15 @@
+digraph "classes" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{Background|image\lrect\l|}", shape="record"];
+"1" [label="{Enemy|attackPower : int\lcurrent_frame : int\lgame\lhp : int\limage\lisdead : bool\ljumping : bool\llast_update : int\lrect\lspeedx : int\lspeedy : int\lstanding_frames : list\lwait : int\lwalking : bool\l|animate()\lload_images()\lupdate()\l}", shape="record"];
+"2" [label="{Game|all_sprites\lbackground\lclock\ldir\lenemies\lfont_name : NoneType\lhighscore : int\llast_update : int\lpausedtime : int\lplatforms\lplayer\lplaying : bool\lrunning : bool\lscreen\lspritesheet\ltimer\l|draw()\ldraw_text(text, size, color, x, y)\levents()\lload_data()\lnew()\lpause()\lrun()\lshow_go_screen()\lshow_start_screen()\lupdate()\lwait_for_key()\l}", shape="record"];
+"3" [label="{Platform|game\limage\lrect\l|}", shape="record"];
+"4" [label="{Player|acc\lattackPower : int\lcurrent_frame : int\ldead_frame\lgame\lhp : int\limage\lisdead : bool\ljump_frame\ljumping : bool\llast_update : int\lpos\lrect\lstanding_frames : list\lvel\lwalk_frames_l : list\lwalk_frames_r : list\lwalking : bool\l|animate()\ljump()\ljump_cut()\lload_images()\lupdate()\l}", shape="record"];
+"5" [label="{Spritesheet|spritesheet\l|get_image(x, y, width, height)\l}", shape="record"];
+"6" [label="{Stopwatch|pausedTime : int\lseconds\l|get_seconds()\lreset()\l}", shape="record"];
+"0" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="background", style="solid"];
+"4" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="player", style="solid"];
+"5" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="spritesheet", style="solid"];
+"6" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="timer", style="solid"];
+}
