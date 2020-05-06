@@ -9,14 +9,13 @@ from stopwatch import Stopwatch
 class Game:
     def __init__(self):
         pg.init()
-        pg.mixer.init()         # sound
+        pg.mixer.init()  # sound
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
-        
 
     def new(self):
         # start a new game
@@ -46,11 +45,9 @@ class Game:
 
         # Other platforms
 
-
-
         self.run()
 
-    def run(self):          # The game loop
+    def run(self):  # The game loop
         # Game Loop
         self.playing = True
         while self.playing:
@@ -62,7 +59,7 @@ class Game:
     def pause(self):
         paused = True
         tempTime = Stopwatch()
-        
+
         # Fade out game music, start pause soundtrack
         pg.mixer.music.fadeout(750)
         pg.mixer.music.load(path.join(SOUND, PAUSE_TRACK))
@@ -109,23 +106,24 @@ class Game:
         # game over/continue
         if not self.running:
             return
-        
+
         pg.mixer.music.load(path.join(SOUND, GAME_OVER))
         pg.mixer.music.play()
         self.screen.fill([0, 0, 0])
         self.draw_text("GAME OVER", 48, RED, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Score: " + str(round((self.timer.get_seconds() - self.pausedtime), 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2)
+        self.draw_text("Score: " + str(round((self.timer.get_seconds() - self.pausedtime), 2)), 22, WHITE, WIDTH / 2,
+                       HEIGHT / 2)
         self.draw_text("Press c to play again, q to quit", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         if self.timer.get_seconds() - self.pausedtime > self.highscore:
-            self.highscore = self.timer.get_seconds() - self.pausedtime()
+            self.highscore = self.timer.get_seconds() - self.pausedtime
             self.draw_text("NEW HIGH SCORE!", 22, RED, WIDTH / 2, HEIGHT / 2 + 40)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.timer.get_seconds() - self.pausedtime))
         else:
-            self.draw_text("High Score: " + str(round(self.highscore/10000, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+            self.draw_text("High Score: " + str(round(self.highscore, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
         pg.display.flip()
         # self.wait_for_key()
-        
+
         waiting = True
         while waiting:
             for event in pg.event.get():
@@ -142,7 +140,7 @@ class Game:
 
     ######## GAME LOOP FUNCTIONS ########
 
-    def events(self):       # Import from game_loop.py
+    def events(self):  # Import from game_loop.py
         sound_dir = path.join(self.dir, 'sound')
         jumpsound = path.join(sound_dir, "jump_01.wav")
 
@@ -164,7 +162,7 @@ class Game:
                 if event.key == pg.K_SPACE:
                     self.player.jump_cut()
 
-    def update(self):       # Import from game_loop.py
+    def update(self):  # Import from game_loop.py
         # Game Loop - Update
         self.all_sprites.update()
 
@@ -202,7 +200,7 @@ class Game:
         if len(self.platforms) == 0:
             self.playing = False
 
-    def draw(self):         # Import from game_loop.py
+    def draw(self):  # Import from game_loop.py
         # Game Loop - draw
         self.screen.fill([137, 207, 240])
         self.all_sprites.draw(self.screen)
@@ -226,7 +224,7 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         with open(path.join(self.dir, HS_FILE), 'r') as f:
             try:
-                self.highscore = int(f.read())
+                self.highscore = float(f.read())
             except:
                 self.highscore = 0
         # load spritesheet image
