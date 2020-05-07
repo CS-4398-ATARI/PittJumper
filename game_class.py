@@ -47,7 +47,7 @@ class Game:
 
         self.run()
 
-    def run(self):  # The game loop
+    def run(self):
         # Game Loop
         self.playing = True
         while self.playing:
@@ -122,7 +122,6 @@ class Game:
         else:
             self.draw_text("High Score: " + str(round(self.highscore, 2)), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
         pg.display.flip()
-        # self.wait_for_key()
 
         waiting = True
         while waiting:
@@ -162,7 +161,7 @@ class Game:
                 if event.key == pg.K_SPACE:
                     self.player.jump_cut()
 
-    def update(self):  # Import from game_loop.py
+    def update(self):
         # Game Loop - Update
         self.all_sprites.update()
 
@@ -200,9 +199,11 @@ class Game:
         if len(self.platforms) == 0:
             self.playing = False
 
-    def draw(self):  # Import from game_loop.py
+    def draw(self):
         # Game Loop - draw
-        self.screen.fill([137, 207, 240])
+        img_dir = path.join(self.dir, 'img')
+        self.background = Background(path.join(img_dir, GAME_BG), [0, -50])
+        self.screen.blit(self.background.image, self.background.rect)
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
         self.draw_text(str(round(self.timer.get_seconds() - self.pausedtime, 2)), 22, WHITE, WIDTH / 2, 15)

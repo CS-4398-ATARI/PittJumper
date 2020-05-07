@@ -9,6 +9,7 @@ FONT_NAME = 'arial'
 HS_FILE = "highscore.txt"
 SPRITESHEET = "spritesheet_jumper.png"
 BACKGROUNDTITLE = "pitjumpertitle.png"
+GAME_BG = "sky.png"
 
 # Sound properties
 SOUND = path.join('./sound')
@@ -24,19 +25,28 @@ PLAYER_GRAV = 0.8
 PLAYER_JUMP = 20
 
 # Starting platforms
+# PLATFORM_LIST = [(0, HEIGHT - 60),
+#                  (WIDTH / 2 - 50, HEIGHT * 3 / 4 - 50),
+#                  (125, HEIGHT - 350),
+#                  (350, 200),
+#                  (400, 300),
+#                  (500, 40),
+#                  (900, 600),
+#                  (500, 100),
+#                  (800, 100),
+#                  (600, 40),
+#                  (450, 600),
+#                  (150, HEIGHT-60),
+#                  (800, HEIGHT - 60),
+#                  ]
 PLATFORM_LIST = [(0, HEIGHT - 60),
-                 (WIDTH / 2 - 50, HEIGHT * 3 / 4 - 50),
-                 (125, HEIGHT - 350),
-                 (350, 200),
-                 (400, 300),
-                 (500, 40),
-                 (900, 600),
-                 (500, 100),
-                 (800, 100),
-                 (600, 40),
-                 (450, 600),
-                 (150, HEIGHT-60),
-                 (800, HEIGHT - 60),
+                 (300, HEIGHT - 60),
+                 (600, HEIGHT - 60),
+                 (900, HEIGHT - 60),
+                 (150, HEIGHT -280),
+                 (450, HEIGHT - 180),
+                 (750, HEIGHT - 200),
+                 (1050, HEIGHT - 240),
                  ]
 
 # Starting Enemies

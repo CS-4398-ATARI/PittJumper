@@ -168,10 +168,6 @@ class Enemy(pg.sprite.Sprite):
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
-        #self.image = self.standing_frames[0]
-        #self.pos = vec(40, HEIGHT - 100)
-        #self.vel = vec(0, 0)
-        #self.acc = vec(0, 0)
         self.hp = 5
         self.attackPower = 6
         self.isdead = False

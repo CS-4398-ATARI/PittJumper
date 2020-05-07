@@ -33,6 +33,12 @@ Despite its simplicity, PittJumper does have a moderate set of features that enh
 <li>Pause frame.</li>
 <li>Game over frame.</li>
 </ul>
+<li>Gameplay:</li>
+<ul>
+<li>User can pause an active game.</li>
+<li>User can view active game timer.</li>
+<li>User's high score can be saved.</li>
+</ul>
 
 </ul>
 
@@ -48,7 +54,10 @@ From the PittJumper directory on your screen, run the main.py file from the comm
 
 > <b>~$ python3 main.py</b>
 ## Understanding the Code:
-
-## UML Diagram:
-![Class diagram](/classes_Pyreverse.png)
+PittJumper is executed from the main.py file from the main directory.  Main instantiates a new game object imported from game_class.py and calls the show_start_screen() method where it waits for user input.  When desired input is received, a new game begins with a call to new().  In addition to loading sprites, new() creates two timers and loads the music soundtrack.  The first timer is imported from the Pygame library and tracks total run time.  The second timer is an instance of the included Stopwatch class.  This timer sleeps while an active game is paused.  The difference between both timers returns overall game time which is used to calculate player score.  The soundtrack is managed using the built-in mixer from the Pygame module.  Finally, high scores are recorded in the highscore.txt file.  At the end of each game, the game object compares the current game score with data in highscore.txt.  If the current game score is higher, data in highscore.txt is overwritten which allows top scores to be stored offline.
+## UML/Misc Diagrams:
+![Class diagram](/classes_PittJumper.png)
+![Relationships](/packages_PittJumper.png)
 ## Credits:
+Chris Bradfield - Founder, KidsCanCode<br>
+Artwork and Music from: OpenGameArt.org
